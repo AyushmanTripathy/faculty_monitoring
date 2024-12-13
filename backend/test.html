@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+  </head>
+  <body>
+    <script>
+      /*
+      const email = "23cse417.ayushmantripathy@giet.edu";
+      const name = "Ayushman Tripathy";
+      const password = "ayushman@rocks";
+      const type = "student";
+      */
+      const email = "tripathy@giet.edu";
+      const name = "Tripathy Ayushman";
+      const password = "tripathy@lol";
+      const type = "faculty";
+      let token;
+      let key;
+
+      async function update_status(incampus) {
+        let res = await fetch("http://localhost:5000/update_status", {
+          method: "PATCH",
+          body: JSON.stringify({
+            incampus,
+          }),
+          headers: {
+            Authorization: `Bearer ${type}@${key}`,
+            "Content-Type": "application/json",
+          },
+        });
+        res = await res.json();
+        console.log(res);
+      }
+
+      async function fetch_details() {
+        let res = await fetch("http://localhost:5000/faculty_details", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${type}@${key}`,
+            "Content-Type": "application/json",
+          },
+        });
+        res = await res.json();
+        console.log(res);
+      }
+
+      async function fetch_key() {
+        let res = await fetch("http://localhost:5000/fetch_key", {
+          method: "POST",
+          body: JSON.stringify({
+            email,
+            password,
+            type,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        res = await res.json();
+        console.log(res);
+        key = res.key;
+        return res;
+      }
+
+      async function get_otp() {
+        let res = await fetch("http://localhost:5000/get_otp", {
+          method: "POST",
+          body: JSON.stringify({
+            email,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        res = await res.json();
+        console.log(res);
+        token = res.token;
+        return res;
+      }
+
+      async function create_user(otp) {
+        let res = await fetch("http://localhost:5000/create_user", {
+          method: "POST",
+          body: JSON.stringify({
+            email,
+            type,
+            password,
+            otp,
+            token,
+            name,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        res = await res.json();
+        console.log(res);
+        key = res.key;
+        return res;
+      }
+    </script>
+  </body>
+</html>
